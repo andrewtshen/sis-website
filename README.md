@@ -5,6 +5,9 @@
 - In `/app`, create virtual environment with `virtualenv venv`, then install `flask` and `python-dotenv`.
 - In `/` directory, make sure that `yarn` and `React`/`node`/`npm` are installed properly.
 
+## To install dependencies use:
+- `yarn install`
+
 ## To run use:
 
 - `yarn start`
