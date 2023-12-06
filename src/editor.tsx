@@ -1,218 +1,132 @@
-// import React, { Component } from 'react';
-import './Button.css'; // Tell webpack that Button.js uses these styles
+import React, {useEffect, useRef, ChangeEvent} from 'react';
+import './Editor.css'; 
+import { toBeRequired } from '@testing-library/jest-dom/matchers';
 
-class Editor {
-  public fileInput: HTMLInputElement | null = document.querySelector(".file-input");
-  public filterOptions: NodeListOf<HTMLButtonElement> | null = document.querySelectorAll(".filter button");
-  public filterName: HTMLInputElement | null = document.querySelector(".filter-info .name");
-  public filterValue: HTMLInputElement | null = document.querySelector(".filter-info .value");
-  public filterSlider: HTMLInputElement | null = document.querySelector(".slider input");
-  public rotateOptions: NodeListOf<HTMLButtonElement> | null = document.querySelectorAll(".rotate button");
-  public previewImg: HTMLImageElement | null = document.querySelector(".preview-img img");
-  public resetFilterBtn: HTMLInputElement | null = document.querySelector(".reset-filter");
-  public chooseImgBtn = document.querySelector(".choose-img");
-  public saveImgBtn = document.querySelector(".save-img");
-  private brightness: string;
-  private saturation: string;
-  private inversion: string;
-  private grayscale: string;
-  private rotate: number;
-  private flipHorizontal: number;
-  private flipVertical: number;
+const Editor:React.FC = () => {
+  // Add any state or functions you need here
+  // For example, to handle the range input value:
+  const [brightness, setBrightness] = React.useState(100);
+  const [saturation, setSaturation] = React.useState(100);
+  const [inversion, setInversion] = React.useState(0);
+  const [grayscale, setGrayscale] = React.useState(0);
+  const [rotate, setRotate] = React.useState(0);
+  const [flipHorizontal, setFlipHorizontal] = React.useState(1);
+  const [flipVertical, setFlipVertical] = React.useState(1);
+  const [isDisabled, setIsDisabled] = React.useState(true);
 
-  public constructor() {
-    this.brightness = "100";
-    this.saturation = "100";
-    this.inversion = "0";
-    this.grayscale = "0";
-    this.rotate = 0;
-    this.flipHorizontal = 1;
-    this.flipVertical = 1;
+  const [imageSrc, setImageSrc] = React.useState<string | null>();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
+
+
+  // useEffect = () => {
+
+  // }
+
+  const handleBrightnessChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setBrightness(Number(event.target.value));
+    console.log(brightness)
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setImageSrc(URL.createObjectURL(file));
+      setIsDisabled(false);
+    }
+  };
+
+  const saveImage = () => {
+    if (imageRef.current) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
+      canvas.width = imageRef.current.naturalWidth;
+      canvas.height = imageRef.current.naturalHeight;
+
+      if (ctx) {
+        ctx.filter = `brightness(${brightness}%)`;
+        ctx.drawImage(imageRef.current, 0, 0, canvas.width, canvas.height);
+        const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
+        const link = document.createElement('a');
+        link.download = 'edited-image.png';
+        link.href = image;
+        link.click(); 
+      }
+    }
+  };
+
+  const resetGUI = () => {
+    setBrightness(100);
+    setSaturation(100);
+    setGrayscale(0);
+    setRotate(0);
+    setInversion(0);
+    setFlipHorizontal(0);
+    setFlipVertical(0);
   }
 
-  public main() {
-    const loadImage = () => {
-      if (this.fileInput == null || this.fileInput.hasOwnProperty("files") || this.fileInput.files == null) {
-        return;
-      }
-      let file = this.fileInput.files[0];
-      if (!file) return;  
-      if (this.previewImg == null || this.previewImg.src == null) {
-        return;
-      }
-      this.previewImg.src = URL.createObjectURL(file);
-      this.previewImg.addEventListener("load", () => {
-        if (this.resetFilterBtn == null) {
-          return;
-        }
-        this.resetFilterBtn.click();
-        document.querySelector(".container")?.classList.remove("disable");
-      });
-    };
-  
-    const applyFilter = () => {
-      if (this.previewImg == null) {
-        return;
-      }
-      this.previewImg.style.transform = `rotate(${this.rotate}deg) scale(${this.flipHorizontal}, ${this.flipVertical})`;
-      this.previewImg.style.filter = `brightness(${this.brightness}%) saturate(${this.saturation}%) invert(${this.inversion}%) grayscale(${this.grayscale}%)`;
-    };
-  
-    if (this.filterOptions == null) {
-      return;
-    }
-    this.filterOptions.forEach((option : any) => {
-      option.addEventListener("click", () => {
-        document.querySelector(".active")?.classList.remove("active");
-        option.classList.add("active");
-        if (this.filterName == null) {
-          return;  
-        }
-        this.filterName.innerText = option.innerText;
+  // Other event handlers can go here
 
-        if (option.id === "brightness") {
-          if (this.filterSlider == null) {
-            return;
-          }
-          this.filterSlider.max = "200";
-          this.filterSlider.value = this.brightness;
-          if (this.filterValue == null) {
-            return;
-          }
-          this.filterValue.innerText = `${this.brightness}%`;
-        } else if (option.id === "saturation") {
-          if (this.filterSlider == null) {
-            return;
-          }
-          this.filterSlider.max = "200";
-          this.filterSlider.value = this.saturation;
-          if (this.filterValue == null) {
-            return;
-          }
-          this.filterValue.innerText = `${this.saturation}%`;
-        } else if (option.id === "inversion") {
-          if (this.filterSlider == null) {
-            return;
-          }
-          this.filterSlider.max = "100";
-          this.filterSlider.value = this.inversion;
-          if (this.filterValue == null) {
-            return;
-          }
-          this.filterValue.innerText = `${this.inversion}%`;
-        } else {
-          if (this.filterSlider == null) {
-            return;
-          }
-          this.filterSlider.max = "100";
-          this.filterSlider.value = this.grayscale;
-          if (this.filterValue == null) {
-            return;
-          }
-          this.filterValue.innerText = `${this.grayscale}%`;
-        }
-      });
-    });
-  
-    const updateFilter = () => {
-      if (this.filterValue == null || this.filterSlider == null) {
-        return;
-      }
-      this.filterValue.innerText = `${this.filterSlider.value}%`;
-      const selectedFilter = document.querySelector(".filter .active");
-      
-      if (selectedFilter == null || this.filterSlider == null) {
-        return null;
-      }
-      if (selectedFilter.id === "brightness") {
-        this.brightness = this.filterSlider.value;
-      } else if (selectedFilter.id === "saturation") {
-        this.saturation = this.filterSlider.value;
-      } else if (selectedFilter.id === "inversion") {
-        this.inversion = this.filterSlider.value;
-      } else {
-        this.grayscale = this.filterSlider.value;
-      }
-      applyFilter();
-    };
-    
-    if (this.rotateOptions == null) {
-      return;
-    }
-    this.rotateOptions.forEach((option) => {
-      option.addEventListener("click", () => {
-        if (option.id === "left") {
-          this.rotate -= 90;
-        } else if (option.id === "right") {
-          this.rotate += 90;
-        } else if (option.id === "horizontal") {
-          this.flipHorizontal = this.flipHorizontal === 1 ? -1 : 1;
-        } else {
-          this.flipVertical = this.flipVertical === 1 ? -1 : 1;
-        }
-        applyFilter();
-      });
-    });
-  
-    const resetFilter = () => {
-      this.brightness = "100";
-      this.saturation = "100";
-      this.inversion = "0";
-      this.grayscale = "0";
-      this.rotate = 0;
-      this.flipHorizontal = 1;
-      this.flipVertical = 1;
-      if (this.filterOptions == null) {
-        return;
-      }
-      this.filterOptions[0].click();
-      applyFilter();
-    };
-  
-    const saveImage = () => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-      if (ctx == null) {
-        return
-      }
-      if (this.previewImg == null) {
-        return;
-      }
-      canvas.width = this.previewImg.naturalWidth;
-      canvas.height = this.previewImg.naturalHeight;
-  
-      ctx.filter = `brightness(${this.brightness}%) saturate(${this.saturation}%) invert(${this.inversion}%) grayscale(${this.grayscale}%)`;
-      ctx.translate(canvas.width / 2, canvas.height / 2);
-      if (this.rotate !== 0) {
-        ctx.rotate((this.rotate * Math.PI) / 180);
-      }
-      ctx.scale(this.flipHorizontal, this.flipVertical);
-      ctx.drawImage(
-        this.previewImg,
-        -canvas.width / 2,
-        -canvas.height / 2,
-        canvas.width,
-        canvas.height
-      );
-  
-      const link = document.createElement("a");
-      link.download = "image.jpg";
-      link.href = canvas.toDataURL();
-      link.click();
-    };
-  
-    if (this.filterSlider == null || this.filterSlider == null || this.resetFilterBtn == null || this.saveImgBtn == null || this.fileInput == null || this.fileInput == null || this.chooseImgBtn == null) {
-      return;
-    }
-    this.filterSlider.addEventListener("input", updateFilter);
-    this.resetFilterBtn.addEventListener("click", resetFilter);
-    this.saveImgBtn.addEventListener("click", saveImage);
-    this.fileInput.addEventListener("change", loadImage);
-    if (this.fileInput == null) {
-      return;
-    }
-    this.chooseImgBtn.addEventListener("click", () => this.fileInput?.click());
-  }
-}
+  return (
+    <div className={`container ${isDisabled ? 'disabled' : ''}`}>
+      <h2>Spectral Imaging System Editor</h2>
+      <div className="wrapper">
+        <div className="editor-panel">
+          {/* Filter Section */}
+          <div className="filter">
+            <label className="title">Filters</label>
+            <div className="options">
+              {/* Buttons for filter options */}
+              <button id="brightness" className="active">Brightness</button>
+              <button id="saturation">Saturation</button>
+              <button id="inversion">Inversion</button>
+              <button id="grayscale">Grayscale</button>
+            </div>
+            <div className="slider">
+              <div className="filter-info">
+                <p className="name">Brightness</p>
+                <p className="value">{brightness}%</p>
+              </div>
+              <input type="range" value={brightness} min="0" max="200" onChange={handleBrightnessChange} />
+            </div>
+          </div>
+
+          {/* Rotate & Flip Section */}
+          <div className="rotate">
+            <label className="title">Rotate & Flip</label>
+            <div className="options">
+              {/* Buttons for rotate and flip */}
+              <button id="left"><i className="fa-solid fa-rotate-left"></i></button>
+              <button id="right"><i className="fa-solid fa-rotate-right"></i></button>
+              <button id="horizontal"><i className='bx bx-reflect-vertical'></i></button>
+              <button id="vertical"><i className='bx bx-reflect-horizontal'></i></button>
+            </div>
+          </div>
+        </div>
+
+        {/* Image Preview */}
+        <div className="preview-img">
+          {!fileInputRef.current && <img src="https://ajay-dhangar.github.io/Image-Editor/image-placeholder.svg" alt="preview-img" />}
+          {imageSrc && <img
+            ref={imageRef}
+            src={imageSrc}
+            alt="Uploaded"
+            style={{ filter: `brightness(${brightness}%)` }}
+          />}
+        </div>
+      </div>
+
+      {/* Controls */}
+      <div className="controls">
+        <button className="reset-filter" onClick={resetGUI}>Reset Filters</button>
+        <div className="row">
+          <input type="file" ref={fileInputRef} onChange={handleFileChange} className="file-input" accept="image/*" hidden />
+          <button className="choose-img" onClick={() => fileInputRef.current?.click()}>Select Image</button>
+          <button className="save-img" onClick={saveImage}>Save Image</button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default Editor;

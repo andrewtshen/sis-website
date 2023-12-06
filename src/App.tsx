@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
+import Editor from './Editor';
+import ImageEditor from './ImageEditor';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -13,11 +15,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="App-header">
-        <p>
-          The current time is {currentTime}.
-        </p>
-      </header>
+      <Editor></Editor>
     </div>
   );
 }
