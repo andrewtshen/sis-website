@@ -1,6 +1,5 @@
 import React, {useEffect, useRef, ChangeEvent} from 'react';
 import './Editor.css'; 
-import { toBeRequired } from '@testing-library/jest-dom/matchers';
 
 const Editor:React.FC = () => {
   // Add any state or functions you need here
@@ -13,19 +12,19 @@ const Editor:React.FC = () => {
   const [flipHorizontal, setFlipHorizontal] = React.useState(1);
   const [flipVertical, setFlipVertical] = React.useState(1);
   const [isDisabled, setIsDisabled] = React.useState(true);
-
   const [imageSrc, setImageSrc] = React.useState<string | null>();
+  const [filterSelector, setFilterSelector] = React.useState<string | null>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
-
-  // useEffect = () => {
-
-  // }
-
   const handleBrightnessChange = (event: ChangeEvent<HTMLInputElement>) => {
     setBrightness(Number(event.target.value));
-    console.log(brightness)
+    console.log("Brightness:", brightness)
+  };
+
+  const handleSaturationChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setBrightness(Number(event.target.value));
+    console.log("Brightness:", brightness)
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +34,11 @@ const Editor:React.FC = () => {
       setIsDisabled(false);
     }
   };
+
+  const selectBrightnessFilter = () => {
+    setFilterSelector("brightness")
+    console.log("Selected Brightness Filter")
+  }
 
   const saveImage = () => {
     if (imageRef.current) {
@@ -77,8 +81,8 @@ const Editor:React.FC = () => {
             <label className="title">Filters</label>
             <div className="options">
               {/* Buttons for filter options */}
-              <button id="brightness" className="active">Brightness</button>
-              <button id="saturation">Saturation</button>
+              <button id="brightness" className={`${filterSelector == "brightness" ? "active" : ""}`} onClick={selectBrightnessFilter}>Brightness</button>
+              <button id="saturation" className={`${filterSelector == "saturation" ? "active" : ""}`}>Saturation</button>
               <button id="inversion">Inversion</button>
               <button id="grayscale">Grayscale</button>
             </div>

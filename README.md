@@ -6,6 +6,7 @@
 - In `/` directory, make sure that `yarn` and `React`/`node`/`npm` are installed properly.
 
 ## To install dependencies use:
+
 - `yarn install`
 
 ## To run use:
@@ -15,4 +16,5 @@
 
 ## Acknowledgements
 
-- (How to Create a React Flask Project)[https://blog.miguelgrinberg.com/post/how-to-create-a-react--flask-project]
+- [How to Create a React Flask Project](https://blog.miguelgrinberg.com/post/how-to-create-a-react--flask-project)
+- [Base for the Image Editor](https://codepen.io/ajay-dhangar/pen/xxQgZrd)
