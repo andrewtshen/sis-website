@@ -14,18 +14,25 @@ const Editor:React.FC = () => {
   const [flipVertical, setFlipVertical] = React.useState(1);
   const [isDisabled, setIsDisabled] = React.useState(true);
 
+  const [filterSelected, setFilterSelected] = React.useState<string | null>();
   const [imageSrc, setImageSrc] = React.useState<string | null>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
-
-  // useEffect = () => {
-
-  // }
-
   const handleBrightnessChange = (event: ChangeEvent<HTMLInputElement>) => {
     setBrightness(Number(event.target.value));
-    console.log(brightness)
+  };
+
+  const handleSaturationChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setSaturation(Number(event.target.value));
+  };
+
+  const handleInversionChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setInversion(Number(event.target.value));
+  };
+
+  const handleGrayscaleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setGrayscale(Number(event.target.value));
   };
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -35,6 +42,26 @@ const Editor:React.FC = () => {
       setIsDisabled(false);
     }
   };
+
+  const selectBrightnessFilter = () => {
+    setFilterSelected("brightness");
+    console.log("Filter set to brightness")
+  }
+
+  const selectSaturationFilter = () => {
+    setFilterSelected("saturation");
+    console.log("Filter set to saturation")
+  }
+
+  const selectInversionFilter = () => {
+    setFilterSelected("inversion");
+    console.log("Filter set to inversion")
+  }
+
+  const selectGrayscaleFilter = () => {
+    setFilterSelected("grayscale");
+    console.log("Filter set to grayscale")
+  }
 
   const saveImage = () => {
     if (imageRef.current) {
@@ -78,18 +105,51 @@ const Editor:React.FC = () => {
               <label className="title">Filters</label>
               <div className="options">
                 {/* Buttons for filter options */}
-                <button id="brightness" className="active">Brightness</button>
-                <button id="saturation">Saturation</button>
-                <button id="inversion">Inversion</button>
-                <button id="grayscale">Grayscale</button>
+                <button id="brightness" className={`${filterSelected == "brightness" ? 'active' : ""}`} onClick={selectBrightnessFilter}>Brightness</button>
+                <button id="saturation" className={`${filterSelected == "saturation" ? 'active' : ""}`} onClick={selectSaturationFilter}>Saturation</button>
+                <button id="inversion" className={`${filterSelected == "inversion" ? 'active' : ""}`} onClick={selectInversionFilter}>Inversion</button>
+                <button id="grayscale" className={`${filterSelected == "grayscale" ? 'active' : ""}`} onClick={selectGrayscaleFilter}>Grayscale</button>
               </div>
-              <div className="slider">
+              {/* Slider for brightness */}
+              {
+                filterSelected == "brightness" && <div className="slider">
                 <div className="filter-info">
                   <p className="name">Brightness</p>
                   <p className="value">{brightness}%</p>
                 </div>
                 <input type="range" value={brightness} min="0" max="200" onChange={handleBrightnessChange} />
-              </div>
+                </div>
+              }
+              {/* Slider for saturation */}
+              {
+                filterSelected == "saturation" && <div className="slider">
+                <div className="filter-info">
+                  <p className="name">Saturation</p>
+                  <p className="value">{saturation}%</p>
+                </div>
+                <input type="range" value={saturation} min="0" max="200" onChange={handleSaturationChange} />
+                </div>
+              }
+              {/* Slider for inversion */}
+              {
+                filterSelected == "inversion" && <div className="slider">
+                <div className="filter-info">
+                  <p className="name">Inversion</p>
+                  <p className="value">{inversion}%</p>
+                </div>
+                <input type="range" value={inversion} min="0" max="100" onChange={handleInversionChange} />
+                </div>
+              }
+              {/* Slider for grayscale */}
+              {
+                filterSelected == "grayscale" && <div className="slider">
+                <div className="filter-info">
+                  <p className="name">Grayscale</p>
+                  <p className="value">{grayscale}%</p>
+                </div>
+                <input type="range" value={grayscale} min="0" max="100" onChange={handleGrayscaleChange} />
+                </div>
+              }
             </div>
 
             {/* Rotate & Flip Section */}
@@ -112,7 +172,7 @@ const Editor:React.FC = () => {
               ref={imageRef}
               src={imageSrc}
               alt="Uploaded"
-              style={{ filter: `brightness(${brightness}%)` }}
+              style={{ filter: `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)`}}
             />}
           </div>
         </div>
