@@ -1,0 +1,10 @@
+.gallery {
+    text-align: center;
+    align-items:center;
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 200px;
+    padding-left: 50px;
+    padding-right: 50px;
+}
