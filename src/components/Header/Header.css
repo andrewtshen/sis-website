@@ -1,0 +1,119 @@
+header{
+    width: 100 vw;
+    height: 80px;
+    background: rgba(221, 205, 211, 0);
+    position: absolute; 
+}
+
+.prompt {
+	display: flex;
+    justify-content: flex-end;
+	letter-spacing: .03em;
+	font-weight: bold;
+	margin-bottom: 8vw;
+	margin-top: 4vw;
+	/* background-image: url("../../images/Rectangle39.png"); */
+	font-size: 2.5rem;
+	margin: auto;
+	margin-top: 2vw;
+	margin-bottom: 4vw;
+	letter-spacing: .03em;
+	text-align: center;
+    padding-left: 30px;
+	padding-right: 600px;
+	/* width: 50%; */
+}
+
+@media only screen and (max-width: 767px) {
+	.prompt {
+		width: 75%;
+	}
+}
+
+#logo, .link-text, .apply, .toggleDiv {
+	z-index: 2;
+  }
+  
+  .toggleDiv {
+	display: none;
+  }
+  
+  #logo {
+	block-size: fit-content;
+	width: 300px;
+	height: auto;
+	padding-left: 50px;
+  }
+  
+  #logo-square {
+	width: 70px;
+	margin-left: -25%;
+  }
+  
+  /* Style for logo items */
+  
+  /* Styles for nav-items */
+  #nav-items{
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 350px;
+	justify-content: space-between;
+	font-size: 20px;
+  }
+  
+  /* Style the topnav links */
+  .button {
+	padding: 1vh 2vw;
+  }
+  
+  .link-text, .link-text:hover {
+	color: rgba(0, 0, 0, 0.84);
+	text-decoration: none;
+  }
+  
+  /* nav-items hover effects */
+ .link-text:after {
+	content: '';
+	width: 0;
+	height: 2px;
+	display: block;
+	background: rgba(0, 0, 0, 0.84);
+	transition: width .3s ease;
+	opacity: 0.75;
+  }
+  
+  .link-text:hover:after {
+	width: 100%;
+	left: 0;
+	background: rgba(0, 0, 0, 0.84);
+	opacity: 0.75;
+  }
+  
+  /* Button styles */
+  .button {
+	color: white;
+	background-color: var(--forestgreen);
+	transition: 0.2s;
+	border-radius: 20px;
+	padding-left: 40px;
+	padding-right: 40px;
+  }
+  
+  /* Button hover effects */
+  .button:hover {
+	color: white;
+	text-decoration: none;
+	background-color: #408D60;
+  }
+  
+  @media screen and (max-width: 900px) {
+	.toggleDiv {
+	  display: block;
+	  margin-right: 20px;
+	}
+  
+	.topnav #nav-items {
+	  display: none;
+	}
+  }

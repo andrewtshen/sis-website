@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import Editor from './Editor';
-import ImageEditor from './ImageEditor';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Header from './components/Header/Header';
+import EditorPage from './pages/EditorPage/Editor';
+import GalleryPage from './pages/GalleryPage/GalleryPage';
+import AboutPage from './pages/AboutPage/AboutPage';
 
 function App() {
   const [currentTime, setCurrentTime] = useState(0);
@@ -15,7 +18,14 @@ function App() {
 
   return (
     <div className="App">
-      <Editor></Editor>
+      <Router>
+        <Header title="Spectral Imaging System" />
+        <Routes>
+          <Route path="/" element={<AboutPage />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/editor" element={<EditorPage />} />
+        </Routes>
+      </Router>
     </div>
   );
 }
