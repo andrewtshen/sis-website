@@ -11,7 +11,7 @@ interface HeaderProps {
 const Header: React.FC<HeaderProps> = ({ title }) => {
 
     useEffect(() => {
-        document.title='📸Spectral Imaging'
+        document.title='Spectral Imaging'
     })
 
     return (

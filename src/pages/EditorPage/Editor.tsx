@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, ChangeEvent } from 'react';
 import './Editor.css';
 import { toBeRequired } from '@testing-library/jest-dom/matchers';
+import display from './display.png';
 
 const Editor: React.FC = () => {
   // Add any state or functions you need here
@@ -37,7 +38,7 @@ const Editor: React.FC = () => {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setImageSrc(URL.createObjectURL(file));
+      setImageSrc(display);
       setIsDisabled(false);
     }
   };
@@ -50,7 +51,7 @@ const Editor: React.FC = () => {
       canvas.height = imageRef.current.naturalHeight;
 
       if (ctx) {
-        ctx.filter = `brightness(${brightness}%)`;
+        ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)`;
         ctx.drawImage(imageRef.current, 0, 0, canvas.width, canvas.height);
         const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
         const link = document.createElement('a');
