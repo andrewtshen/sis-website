@@ -73,14 +73,14 @@
 
 .editor-panel .options,
 .controls {
-  display: flex;
+  /* display: flex; */
   flex-wrap: wrap;
   justify-content: space-between;
 }
 
 .editor-panel button {
   outline: none;
-  height: 40px;
+  height: 32px;
   font-size: 14px;
   color: #6c757d;
   background: #fff;
@@ -128,12 +128,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: calc(100% / 4 - 3px);
+  width: 100%;
 }
 
 .rotate .options button:nth-child(3),
 .rotate .options button:nth-child(4) {
-  font-size: 18px;
+  font-size: 14px;
 }
 
 .rotate .options button:active {

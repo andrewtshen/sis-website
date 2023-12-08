@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, ChangeEvent } from 'react';
 import './Editor.css';
 import { toBeRequired } from '@testing-library/jest-dom/matchers';
+import { Dropdown } from 'react-bootstrap';
 
 const Editor: React.FC = () => {
   // Add any state or functions you need here
@@ -14,6 +15,7 @@ const Editor: React.FC = () => {
   const [flipVertical, setFlipVertical] = React.useState(1);
   const [isDisabled, setIsDisabled] = React.useState(true);
 
+  const [mapping, setMapping] = React.useState(["R", "G", "B"]);
   const [imageSrc, setImageSrc] = React.useState<string | null>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -34,10 +36,56 @@ const Editor: React.FC = () => {
     setGrayscale(Number(event.target.value));
   };
 
+  const handleRSelection = (event: ChangeEvent<HTMLSelectElement>) => {
+    let newMapping = mapping;
+    newMapping[0] = String(event.target.value);
+    setMapping(newMapping);
+    console.log("Image src:", imageSrc);
+    console.log("Mapping:", mapping)
+  }
+
+  const handleGSelection = (event: ChangeEvent<HTMLSelectElement>) => {
+    console.log(String(event.target.value))
+    let newMapping = mapping;
+    newMapping[1] = String(event.target.value);
+    setMapping(newMapping);
+    console.log("Image src:", imageSrc);
+    console.log("Mapping:", mapping)
+    console.log(fetch(`/recolorize?imageSrc=${imageSrc}`).then(res => res.json()))
+  }
+
+  const handleBSelection = (event: ChangeEvent<HTMLSelectElement>) => {
+    console.log(String(event.target.value))
+    let newMapping = mapping;
+    newMapping[2] = String(event.target.value);
+    setMapping(newMapping);
+    console.log("Image src:", imageSrc);
+    console.log("Mapping:", mapping)
+  }
+
+  const rotateLeft = () => {
+    setRotate(rotate - 90);
+  };
+
+  const rotateRight = () => {
+    setRotate(rotate + 90);
+  };
+
+  const handleFlipVertical = () => {
+    // Toggle the value by negating it
+    setFlipVertical(-flipVertical);
+  };
+
+  const handleFlipHorizontal = () => {
+    // Toggle the value by negating it
+    setFlipHorizontal(-flipHorizontal);
+  };
+
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setImageSrc(URL.createObjectURL(file));
+      console.log("Location of new file:", URL.createObjectURL(file))
       setIsDisabled(false);
     }
   };
@@ -67,18 +115,57 @@ const Editor: React.FC = () => {
     setGrayscale(0);
     setRotate(0);
     setInversion(0);
-    setFlipHorizontal(0);
-    setFlipVertical(0);
+    setFlipHorizontal(1);
+    setFlipVertical(1);
   }
 
   // Other event handlers can go here
 
   return (
     <div className="editor">
-      <div className="container"> 
+      <div className="container">
         <h2>Spectral Imaging System Editor</h2>
         <div className="wrapper">
           <div className="editor-panel">
+            {/* Recolorize Section */}
+            <div className="recolorization">
+              <label className="title">Recolorization Tools</label>
+              <div>
+                Remapping for R Channel:
+                <select className="form-select" aria-label="Default select example" onChange={handleRSelection}>
+                  <option selected>Choose a channel:</option>
+                  <option value="R">R</option>
+                  <option value="G">G</option>
+                  <option value="B">B</option>
+                  <option value="IR">IR</option>
+                  <option value="UV">UV</option>
+                </select>
+              </div>
+
+              <div>
+                Remapping for G Channel:
+                <select className="form-select" aria-label="Default select example" onChange={handleGSelection}>
+                  <option selected>Choose a channel:</option>
+                  <option value="R">R</option>
+                  <option value="G">G</option>
+                  <option value="B">B</option>
+                  <option value="IR">IR</option>
+                  <option value="UV">UV</option>
+                </select>
+              </div>
+
+              <div>
+                Remapping for B Channel:
+                <select className="form-select" aria-label="Default select example" onChange={handleBSelection}>
+                  <option selected>Choose a channel:</option>
+                  <option value="R">R</option>
+                  <option value="G">G</option>
+                  <option value="B">B</option>
+                  <option value="IR">IR</option>
+                  <option value="UV">UV</option>
+                </select>
+              </div>
+            </div>
             {/* Filter Section */}
             <div className="filter">
               <label className="title">Filters</label>
@@ -114,25 +201,24 @@ const Editor: React.FC = () => {
 
             {/* Rotate & Flip Section */}
             <div className="rotate">
-              <label className="title">Rotate & Flip</label>
               <div className="options">
                 {/* Buttons for rotate and flip */}
-                <button id="left"><i className="fa-solid fa-rotate-left"></i></button>
-                <button id="right"><i className="fa-solid fa-rotate-right"></i></button>
-                <button id="horizontal"><i className='bx bx-reflect-vertical'></i></button>
-                <button id="vertical"><i className='bx bx-reflect-horizontal'></i></button>
+                <button id="left" onClick={rotateLeft}><i className="fa-solid fa-rotate-left">Rotate Left</i></button>
+                <button id="right" onClick={rotateRight}><i className="fa-solid fa-rotate-right">Rotate Right</i></button>
+                <button id="horizontal" onClick={handleFlipHorizontal}><i className='bx bx-reflect-horizontal'>Flip Horizontal</i></button>
+                <button id="vertical" onClick={handleFlipVertical}><i className='bx bx-reflect-vertical'>Flip Vertical</i></button>
               </div>
             </div>
           </div>
 
           {/* Image Preview */}
           <div className="preview-img">
-            {!fileInputRef.current && <img src="https://ajay-dhangar.github.io/Image-Editor/image-placeholder.svg" alt="preview-img"/>}
+            {!fileInputRef.current && <img src="https://ajay-dhangar.github.io/Image-Editor/image-placeholder.svg" alt="preview-img" />}
             {imageSrc && <img
               ref={imageRef}
               src={imageSrc}
               alt="Uploaded"
-              style={{ filter: `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)` }}
+              style={{ filter: `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)`, transform: `rotate(${rotate}deg) scaleX(${flipVertical}) scaleY(${flipHorizontal})` }}
             />}
           </div>
         </div>
