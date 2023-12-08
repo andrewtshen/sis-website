@@ -1,8 +1,8 @@
-import React, {useEffect, useRef, ChangeEvent} from 'react';
-import './Editor.css'; 
+import React, { useEffect, useRef, ChangeEvent } from 'react';
+import './Editor.css';
 import { toBeRequired } from '@testing-library/jest-dom/matchers';
 
-const Editor:React.FC = () => {
+const Editor: React.FC = () => {
   // Add any state or functions you need here
   // For example, to handle the range input value:
   const [brightness, setBrightness] = React.useState(100);
@@ -14,7 +14,6 @@ const Editor:React.FC = () => {
   const [flipVertical, setFlipVertical] = React.useState(1);
   const [isDisabled, setIsDisabled] = React.useState(true);
 
-  const [filterSelected, setFilterSelected] = React.useState<string | null>();
   const [imageSrc, setImageSrc] = React.useState<string | null>();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
@@ -35,33 +34,13 @@ const Editor:React.FC = () => {
     setGrayscale(Number(event.target.value));
   };
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       setImageSrc(URL.createObjectURL(file));
       setIsDisabled(false);
     }
   };
-
-  const selectBrightnessFilter = () => {
-    setFilterSelected("brightness");
-    console.log("Filter set to brightness")
-  }
-
-  const selectSaturationFilter = () => {
-    setFilterSelected("saturation");
-    console.log("Filter set to saturation")
-  }
-
-  const selectInversionFilter = () => {
-    setFilterSelected("inversion");
-    console.log("Filter set to inversion")
-  }
-
-  const selectGrayscaleFilter = () => {
-    setFilterSelected("grayscale");
-    console.log("Filter set to grayscale")
-  }
 
   const saveImage = () => {
     if (imageRef.current) {
@@ -77,7 +56,7 @@ const Editor:React.FC = () => {
         const link = document.createElement('a');
         link.download = 'edited-image.png';
         link.href = image;
-        link.click(); 
+        link.click();
       }
     }
   };
@@ -96,60 +75,41 @@ const Editor:React.FC = () => {
 
   return (
     <div className="editor">
-      <div className={`container ${isDisabled ? 'disabled' : ''}`}>
+      <div className="container"> 
         <h2>Spectral Imaging System Editor</h2>
         <div className="wrapper">
           <div className="editor-panel">
             {/* Filter Section */}
             <div className="filter">
               <label className="title">Filters</label>
-              <div className="options">
-                {/* Buttons for filter options */}
-                <button id="brightness" className={`${filterSelected == "brightness" ? 'active' : ""}`} onClick={selectBrightnessFilter}>Brightness</button>
-                <button id="saturation" className={`${filterSelected == "saturation" ? 'active' : ""}`} onClick={selectSaturationFilter}>Saturation</button>
-                <button id="inversion" className={`${filterSelected == "inversion" ? 'active' : ""}`} onClick={selectInversionFilter}>Inversion</button>
-                <button id="grayscale" className={`${filterSelected == "grayscale" ? 'active' : ""}`} onClick={selectGrayscaleFilter}>Grayscale</button>
-              </div>
-              {/* Slider for brightness */}
-              {
-                filterSelected == "brightness" && <div className="slider">
+              <div className="slider">
                 <div className="filter-info">
                   <p className="name">Brightness</p>
                   <p className="value">{brightness}%</p>
                 </div>
                 <input type="range" value={brightness} min="0" max="200" onChange={handleBrightnessChange} />
-                </div>
-              }
-              {/* Slider for saturation */}
-              {
-                filterSelected == "saturation" && <div className="slider">
+              </div>
+              <div className="slider">
                 <div className="filter-info">
                   <p className="name">Saturation</p>
                   <p className="value">{saturation}%</p>
                 </div>
                 <input type="range" value={saturation} min="0" max="200" onChange={handleSaturationChange} />
-                </div>
-              }
-              {/* Slider for inversion */}
-              {
-                filterSelected == "inversion" && <div className="slider">
+              </div>
+              <div className="slider">
                 <div className="filter-info">
                   <p className="name">Inversion</p>
                   <p className="value">{inversion}%</p>
                 </div>
                 <input type="range" value={inversion} min="0" max="100" onChange={handleInversionChange} />
-                </div>
-              }
-              {/* Slider for grayscale */}
-              {
-                filterSelected == "grayscale" && <div className="slider">
+              </div>
+              <div className="slider">
                 <div className="filter-info">
                   <p className="name">Grayscale</p>
                   <p className="value">{grayscale}%</p>
                 </div>
                 <input type="range" value={grayscale} min="0" max="100" onChange={handleGrayscaleChange} />
-                </div>
-              }
+              </div>
             </div>
 
             {/* Rotate & Flip Section */}
@@ -167,12 +127,12 @@ const Editor:React.FC = () => {
 
           {/* Image Preview */}
           <div className="preview-img">
-            {!fileInputRef.current && <img src="https://ajay-dhangar.github.io/Image-Editor/image-placeholder.svg" alt="preview-img" />}
+            {!fileInputRef.current && <img src="https://ajay-dhangar.github.io/Image-Editor/image-placeholder.svg" alt="preview-img"/>}
             {imageSrc && <img
               ref={imageRef}
               src={imageSrc}
               alt="Uploaded"
-              style={{ filter: `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)`}}
+              style={{ filter: `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)` }}
             />}
           </div>
         </div>
