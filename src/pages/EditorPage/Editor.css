@@ -19,6 +19,15 @@
   /* background:  */
 }
 
+.main-container {
+  display: flex;
+}
+
+.column {
+  flex-direction: column;
+  justify-content: center;
+}
+
 .container {
   width: 850px;
   padding: 30px 35px 35px;
@@ -170,6 +179,13 @@
   background: none;
   transition: all 0.3s ease;
   text-transform: uppercase;
+}
+
+.carousel-container {
+  height: 0; 
+  overflow: hidden; 
+  height: 40vh;
+  padding-top: 40px;
 }
 
 .controls .reset-filter {

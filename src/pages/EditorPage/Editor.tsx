@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, ChangeEvent } from 'react';
 import './Editor.css';
 import { useLocation } from 'react-router-dom';
+import Carousel from '../../components/Carousel/Carousel';
 
 // import display from "../../../api/images/display.jpg"
 
@@ -42,6 +43,13 @@ const Editor: React.FC = () => {
       });
   }
 
+  const updateImg = (fileUrl:string, fileName:string) => {
+    if (fileUrl !== undefined) {
+      setImageSrc(fileUrl)    
+      setFileName(fileName)
+    }
+  }
+
   const handleBrightnessChange = (event: ChangeEvent<HTMLInputElement>) => {
     setBrightness(Number(event.target.value));
   };
@@ -58,9 +66,10 @@ const Editor: React.FC = () => {
     setGrayscale(Number(event.target.value));
   };
 
-  const handleRSelection = (event: ChangeEvent<HTMLSelectElement>) => {
+  const handleRSelection = (event?: ChangeEvent<HTMLSelectElement>) => {
+    const channel = event ? String(event.target.value) : 'R';
     let newMapping = mapping;
-    newMapping[0] = String(event.target.value);
+    newMapping[0] = String(channel);
     setMapping(newMapping);
     console.log("Mapping:", mapping);
     const imageUrl = `/recolorize?fileName=${fileName}&mapping=${mapping}`;
@@ -78,10 +87,11 @@ const Editor: React.FC = () => {
       });
   }
 
-  const handleGSelection = (event: ChangeEvent<HTMLSelectElement>) => {
-    console.log(String(event.target.value))
+  const handleGSelection = (event?: ChangeEvent<HTMLSelectElement>) => {
+    const channel = event ? String(event.target.value) : 'G';
+    console.log(channel);
     let newMapping = mapping;
-    newMapping[1] = String(event.target.value);
+    newMapping[1] = String(channel);
     setMapping(newMapping);
     console.log("Mapping:", mapping)
     const imageUrl = `/recolorize?fileName=${fileName}&mapping=${mapping}`;
@@ -99,10 +109,11 @@ const Editor: React.FC = () => {
       });
   }
 
-  const handleBSelection = (event: ChangeEvent<HTMLSelectElement>) => {
-    console.log(String(event.target.value))
+  const handleBSelection = (event?: ChangeEvent<HTMLSelectElement>) => {
+    const channel = event ? String(event.target.value) : 'B';
+    console.log(channel);
     let newMapping = mapping;
-    newMapping[2] = String(event.target.value);
+    newMapping[2] = String(channel);
     setMapping(newMapping);
     console.log("Mapping:", mapping);
     const imageUrl = `/recolorize?fileName=${fileName}&mapping=${mapping}`;
@@ -175,122 +186,132 @@ const Editor: React.FC = () => {
     setInversion(0);
     setFlipHorizontal(1);
     setFlipVertical(1);
+
+    handleBSelection();
+    handleGSelection();
+    handleRSelection();
   }
 
   // Other event handlers can go here
 
   return (
     <div className="editor">
-      <div className="container">
-        <h2>Spectral Imaging System Editor</h2>
-        <div className="wrapper">
-          <div className="editor-panel">
-            {/* Recolorize Section */}
-            <div className="recolorization">
-              <label className="title">Recolorization Tools</label>
-              <div>
-                Remapping for R Channel:
-                <select className="form-select" aria-label="Default select example" onChange={handleRSelection}>
-                  <option selected>Choose a channel:</option>
-                  <option value="R">R</option>
-                  <option value="G">G</option>
-                  <option value="B">B</option>
-                  <option value="IR">IR</option>
-                  <option value="UV">UV</option>
-                </select>
+      <div className='main-container column'>
+        <div className="container">
+          <h2>Spectral Imaging System Editor</h2>
+          <div className="wrapper">
+            <div className="editor-panel">
+              {/* Recolorize Section */}
+              <div className="recolorization">
+                <label className="title">Recolorization Tools</label>
+                <div>
+                  Remapping for R Channel:
+                  <select className="form-select" aria-label="Default select example" onChange={handleRSelection}>
+                    <option selected>Choose a channel:</option>
+                    <option value="R">R</option>
+                    <option value="G">G</option>
+                    <option value="B">B</option>
+                    <option value="IR">IR</option>
+                    <option value="UV">UV</option>
+                  </select>
+                </div>
+
+                <div>
+                  Remapping for G Channel:
+                  <select className="form-select" aria-label="Default select example" onChange={handleGSelection}>
+                    <option selected>Choose a channel:</option>
+                    <option value="R">R</option>
+                    <option value="G">G</option>
+                    <option value="B">B</option>
+                    <option value="IR">IR</option>
+                    <option value="UV">UV</option>
+                  </select>
+                </div>
+
+                <div>
+                  Remapping for B Channel:
+                  <select className="form-select" aria-label="Default select example" onChange={handleBSelection}>
+                    <option selected>Choose a channel:</option>
+                    <option value="R">R</option>
+                    <option value="G">G</option>
+                    <option value="B">B</option>
+                    <option value="IR">IR</option>
+                    <option value="UV">UV</option>
+                  </select>
+                </div>
+              </div>
+              {/* Filter Section */}
+              <div className="filter">
+                <label className="title">Filters</label>
+                <div className="slider">
+                  <div className="filter-info">
+                    <p className="name">Brightness</p>
+                    <p className="value">{brightness}%</p>
+                  </div>
+                  <input type="range" value={brightness} min="0" max="200" onChange={handleBrightnessChange} />
+                </div>
+                <div className="slider">
+                  <div className="filter-info">
+                    <p className="name">Saturation</p>
+                    <p className="value">{saturation}%</p>
+                  </div>
+                  <input type="range" value={saturation} min="0" max="200" onChange={handleSaturationChange} />
+                </div>
+                <div className="slider">
+                  <div className="filter-info">
+                    <p className="name">Inversion</p>
+                    <p className="value">{inversion}%</p>
+                  </div>
+                  <input type="range" value={inversion} min="0" max="100" onChange={handleInversionChange} />
+                </div>
+                <div className="slider">
+                  <div className="filter-info">
+                    <p className="name">Grayscale</p>
+                    <p className="value">{grayscale}%</p>
+                  </div>
+                  <input type="range" value={grayscale} min="0" max="100" onChange={handleGrayscaleChange} />
+                </div>
               </div>
 
-              <div>
-                Remapping for G Channel:
-                <select className="form-select" aria-label="Default select example" onChange={handleGSelection}>
-                  <option selected>Choose a channel:</option>
-                  <option value="R">R</option>
-                  <option value="G">G</option>
-                  <option value="B">B</option>
-                  <option value="IR">IR</option>
-                  <option value="UV">UV</option>
-                </select>
-              </div>
-
-              <div>
-                Remapping for B Channel:
-                <select className="form-select" aria-label="Default select example" onChange={handleBSelection}>
-                  <option selected>Choose a channel:</option>
-                  <option value="R">R</option>
-                  <option value="G">G</option>
-                  <option value="B">B</option>
-                  <option value="IR">IR</option>
-                  <option value="UV">UV</option>
-                </select>
+              {/* Rotate & Flip Section */}
+              <div className="rotate">
+                <div className="options">
+                  {/* Buttons for rotate and flip */}
+                  <button id="left" onClick={rotateLeft}><i className="fa-solid fa-rotate-left">Rotate Left</i></button>
+                  <button id="right" onClick={rotateRight}><i className="fa-solid fa-rotate-right">Rotate Right</i></button>
+                  <button id="horizontal" onClick={handleFlipHorizontal}><i className='bx bx-reflect-horizontal'>Flip Horizontal</i></button>
+                  <button id="vertical" onClick={handleFlipVertical}><i className='bx bx-reflect-vertical'>Flip Vertical</i></button>
+                </div>
               </div>
             </div>
-            {/* Filter Section */}
-            <div className="filter">
-              <label className="title">Filters</label>
-              <div className="slider">
-                <div className="filter-info">
-                  <p className="name">Brightness</p>
-                  <p className="value">{brightness}%</p>
-                </div>
-                <input type="range" value={brightness} min="0" max="200" onChange={handleBrightnessChange} />
-              </div>
-              <div className="slider">
-                <div className="filter-info">
-                  <p className="name">Saturation</p>
-                  <p className="value">{saturation}%</p>
-                </div>
-                <input type="range" value={saturation} min="0" max="200" onChange={handleSaturationChange} />
-              </div>
-              <div className="slider">
-                <div className="filter-info">
-                  <p className="name">Inversion</p>
-                  <p className="value">{inversion}%</p>
-                </div>
-                <input type="range" value={inversion} min="0" max="100" onChange={handleInversionChange} />
-              </div>
-              <div className="slider">
-                <div className="filter-info">
-                  <p className="name">Grayscale</p>
-                  <p className="value">{grayscale}%</p>
-                </div>
-                <input type="range" value={grayscale} min="0" max="100" onChange={handleGrayscaleChange} />
-              </div>
-            </div>
 
-            {/* Rotate & Flip Section */}
-            <div className="rotate">
-              <div className="options">
-                {/* Buttons for rotate and flip */}
-                <button id="left" onClick={rotateLeft}><i className="fa-solid fa-rotate-left">Rotate Left</i></button>
-                <button id="right" onClick={rotateRight}><i className="fa-solid fa-rotate-right">Rotate Right</i></button>
-                <button id="horizontal" onClick={handleFlipHorizontal}><i className='bx bx-reflect-horizontal'>Flip Horizontal</i></button>
-                <button id="vertical" onClick={handleFlipVertical}><i className='bx bx-reflect-vertical'>Flip Vertical</i></button>
-              </div>
+            {/* Image Preview */}
+            <div className="preview-img">
+              {!fileInputRef.current && <img src="https://ajay-dhangar.github.io/Image-Editor/image-placeholder.svg" alt="preview-img" />}
+              {imageSrc && <img
+                ref={imageRef}
+                src={imageSrc}
+                alt="Uploaded"
+                style={{ filter: `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)`, transform: `rotate(${rotate}deg) scaleX(${flipVertical}) scaleY(${flipHorizontal})` }}
+              />}
             </div>
           </div>
 
-          {/* Image Preview */}
-          <div className="preview-img">
-            {!fileInputRef.current && <img src="https://ajay-dhangar.github.io/Image-Editor/image-placeholder.svg" alt="preview-img" />}
-            {imageSrc && <img
-              ref={imageRef}
-              src={imageSrc}
-              alt="Uploaded"
-              style={{ filter: `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)`, transform: `rotate(${rotate}deg) scaleX(${flipVertical}) scaleY(${flipHorizontal})` }}
-            />}
+          {/* Controls */}
+          <div className="controls">
+            <button className="reset-filter" onClick={resetGUI}>Reset Filters</button>
+            <div className="row">
+              <input type="file" ref={fileInputRef} onChange={handleFileChange} className="file-input" accept="image/*" hidden />
+              {/* <button className="choose-img" onClick={() => fileInputRef.current?.click()}>Select Image</button> */}
+              {/* <button className="save-img" onClick={saveImage}>Save Image</button> */}
+            </div>
           </div>
         </div>
-
-        {/* Controls */}
-        <div className="controls">
-          <button className="reset-filter" onClick={resetGUI}>Reset Filters</button>
-          <div className="row">
-            <input type="file" ref={fileInputRef} onChange={handleFileChange} className="file-input" accept="image/*" hidden />
-            <button className="choose-img" onClick={() => fileInputRef.current?.click()}>Select Image</button>
-            <button className="save-img" onClick={saveImage}>Save Image</button>
-          </div>
+        <div className='carousel-container clearfix'>
+          <Carousel updateImg={updateImg}/>
         </div>
       </div>
+      {/* <Carousel/> */}
     </div>
   );
 };

@@ -50,7 +50,8 @@ def get_recolorize():
 @app.route('/get_all_gallery_filenames', methods=['GET'])
 def get_all_image_names():
     ret = os.listdir("./gallery/")
-    ret.remove(".DS_Store")
+    if os.path.exists('./gallery/.DS_Store'):
+        ret.remove(".DS_Store")
     # TODO: cleanup
     # This is so jank
     ret.remove("display.jpg")
