@@ -1,9 +1,7 @@
 import time
-from flask import Flask
-from flask import request
 import numpy as np
 import matplotlib.pyplot as plt
-from flask import Flask, send_file, request
+from flask import Flask, send_file, request, make_response
 from PIL import Image
 import io
 import os
@@ -56,7 +54,9 @@ def get_all_image_names():
     # TODO: cleanup
     # This is so jank
     ret.remove("display.jpg")
-    return ret
+    response = make_response(ret)
+    response.headers['Cache-Control'] = 'public, max-age=86400'
+    return response
 
 
 @app.route('/get_gallery_image', methods=['GET'])
@@ -75,4 +75,6 @@ def get_image():
     Image.fromarray(rgb_im).save(img_io, 'JPEG')
     img_io.seek(0)
 
-    return send_file(img_io, mimetype='image/jpeg')
+    response = make_response(send_file(img_io, mimetype='image/jpeg'))
+    response.headers['Cache-Control'] = 'public, max-age=86400'
+    return response

@@ -1,5 +1,16 @@
-.card {
-    width: 300px;
-    padding: 2px;
-    margin: 20px;
+img {
+    /* width: 300px; */
+    /* padding: 2px; */
+    /* margin: 20px; */
+    /* padding-right: 50px; */
+    max-width: 400px;
+    padding: 10px;
+    border-radius: 12px;
+    height: auto;
+    width: auto\60; /* ie8 */
+}
+
+img:hover {
+    image-rendering: crisp-edges;
+    cursor: pointer;
 }
