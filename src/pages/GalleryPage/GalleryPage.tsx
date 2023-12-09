@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './GalleryPage.css';
 import ImageCard from '../../components/Card/ImageCard';
+import Fade from 'react-reveal/Fade';
 
 class ImageInfo {
     blobUrl: string;
@@ -47,11 +48,13 @@ const GalleryPage: React.FC = () => {
     }, []); // Empty dependency array ensures this effect runs only once (on mount)
 
     return (
-        <div className="gallery">
-            {galleryImageInfos.map((imageInfo, index) => (
-                <ImageCard state={"fileName"} key={index} title={imageInfo.fileName} imageUrl={imageInfo.blobUrl} />
-            ))}
-        </div>
+        <Fade>
+            <div className="gallery">
+                {galleryImageInfos.map((imageInfo, index) => (
+                    <ImageCard state={"fileName"} key={index} title={imageInfo.fileName} imageUrl={imageInfo.blobUrl} />
+                ))}
+            </div>
+        </Fade>
     );
 };
 
