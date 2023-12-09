@@ -6,6 +6,7 @@ import matplotlib.pyplot as plt
 from flask import Flask, send_file, request
 from PIL import Image
 import io
+import os
 
 
 app = Flask(__name__)
@@ -27,6 +28,7 @@ def get_recolorize():
         'UV': 4,
     }
 
+    # TODO: Fix this bit so that it uses the image source passed in.
     imageSrc = request.args.get('imageSrc')
     mapping = request.args.get('mapping').split(",")
     mapping = [conversion[m] for m in mapping]
@@ -45,3 +47,8 @@ def get_recolorize():
 
     # Write back to frontend
     return send_file(img_io, mimetype='image/jpeg')
+
+
+@app.route('/getallimages', methods=['GET'])
+def get_all_image_names():
+    return os.listdir("./images/")

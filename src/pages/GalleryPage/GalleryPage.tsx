@@ -1,9 +1,12 @@
 import React from 'react';
 import './GalleryPage.css'
 import ImageCard from '../../components/Card/ImageCard';
-import {images} from '../../constants/imageInfo';
+import { images } from '../../constants/imageInfo';
 
 const GalleryPage: React.FC = () => {
+
+    console.log("Available images:", fetch("/getallimages").then(res => res.json()));
+    console.log("Images:", images)
 
     return (
         <div className="gallery">

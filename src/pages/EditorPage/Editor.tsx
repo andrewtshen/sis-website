@@ -41,10 +41,7 @@ const Editor: React.FC = () => {
     let newMapping = mapping;
     newMapping[0] = String(event.target.value);
     setMapping(newMapping);
-    console.log("Image src:", imageSrc);
     console.log("Mapping:", mapping);
-    // console.log(fetch(`/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`).then(res => res.json()));
-    // setImageSrc(display);
     const imageUrl = `/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`;
     fetch(imageUrl, {
       method: 'POST',
@@ -65,10 +62,7 @@ const Editor: React.FC = () => {
     let newMapping = mapping;
     newMapping[1] = String(event.target.value);
     setMapping(newMapping);
-    console.log("Image src:", imageSrc);
     console.log("Mapping:", mapping)
-    // console.log(fetch(`/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`).then(res => res.json()));
-    // setImageSrc(display);
     const imageUrl = `/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`;
     fetch(imageUrl, {
       method: 'POST',
@@ -89,10 +83,7 @@ const Editor: React.FC = () => {
     let newMapping = mapping;
     newMapping[2] = String(event.target.value);
     setMapping(newMapping);
-    console.log("Image src:", imageSrc);
     console.log("Mapping:", mapping);
-    // console.log(fetch(`/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`).then(res => res.json()));
-    // setImageSrc(display);
     const imageUrl = `/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`;
     fetch(imageUrl, {
       method: 'POST',
