@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, ChangeEvent } from 'react';
 import './Editor.css';
 import { toBeRequired } from '@testing-library/jest-dom/matchers';
-import display from './display.png';
 
 const Editor: React.FC = () => {
   // Add any state or functions you need here
@@ -38,7 +37,7 @@ const Editor: React.FC = () => {
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
-      setImageSrc(display);
+      setImageSrc('https://ajay-dhangar.github.io/Image-Editor/image-placeholder.svg');
       setIsDisabled(false);
     }
   };
