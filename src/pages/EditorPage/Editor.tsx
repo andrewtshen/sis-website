@@ -156,7 +156,7 @@ const Editor: React.FC = () => {
       canvas.height = imageRef.current.naturalHeight;
 
       if (ctx) {
-        ctx.filter = `brightness(${brightness}%)`;
+        ctx.filter = `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)`;
         ctx.drawImage(imageRef.current, 0, 0, canvas.width, canvas.height);
         const image = canvas.toDataURL("image/png").replace("image/png", "image/octet-stream");
         const link = document.createElement('a');

@@ -5,9 +5,137 @@
     position: relative;
 }
 
-.title-text {
-    padding-top: 30vh;
-    font-size: 50px;
+.topic {
+    padding-top:50px;
+    padding-bottom:50px;
+    font-size: 30px;
+}
+
+.topic h2 {
+    text-align: left;
+}
+
+.text-components {
+    padding-top:100px;
     padding-left: 15vw;
     padding-right: 15vw;
+}
+
+.large-img {
+    height: 200px;
+}
+
+.small-img {
+    height: 300px;
+    display: block;
+    line-height: 1em;
+    align-items: normal;
+}
+
+.title-container{
+    position: relative;
+    padding-top:100px;
+}
+
+.title-container .background {
+    height: 100vh;
+    position:relative;
+    z-index:-1;
+    opacity: 1; 
+    top: 0;
+    left: 0;
+    background-image: linear-gradient(to bottom, rgba(255, 255, 255, 1),rgba(255, 255, 255, 0.488), rgba(255, 255, 255, 1)), url('../../constants/cover.jpeg');
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    background-size: cover;
+}
+
+section .description {
+    padding-right: 100px;
+}
+
+section ul {
+    padding-top:30px;
+    padding-left:90px;
+    padding-bottom: 30px;
+}
+
+.title-container h1 {
+    /* opacity: 1; */
+    z-index: 2;
+    padding-top: 40vh;
+    margin-left: 15vw;
+    margin-right: 15vw;
+    font-size: 50px;
+    position:absolute;
+    display:block;
+    color: white;
+    text-shadow: rgb(0, 0, 0) 1px 0 10px;
+}
+
+.large-photo {
+    width: 300px;
+}
+
+section {
+    padding-top: 3vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    /* width: 75vw; */
+    text-align:left;
+    margin: 8vh;
+}
+
+.section-img {
+    width: 30vw;
+    min-width: 350px;
+    border-radius: 25px;
+}
+
+.section-img-container {
+    position: relative; 
+}
+
+.text-left, .text-right {
+    margin-bottom: 12vh;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100vw;
+    overflow: hidden;
+    margin: 0;
+}
+
+.text {
+    position: relative;
+    width: 25vw;
+    display: flex;
+    flex-direction: column;
+}
+
+.section-title {
+    text-align:center;
+    font-size: 50px;
+}
+
+.topic-format h2 {
+    text-align: left;
+    line-height: 60px;
+    font-size: 40px;
+}
+
+.topic-format p {
+    text-indent: 10px;
+    font-size: 20px;
+}
+
+.description {
+    padding-top: 3vh;
+    font-size: 20px;
+    text-align: left;
 }

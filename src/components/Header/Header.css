@@ -1,8 +1,9 @@
 header{
-    width: 100 vw;
+    width: 100%;
     height: 80px;
     background: rgba(221, 205, 211, 0);
     position: absolute; 
+	z-index: 1;
 }
 
 .prompt {
@@ -10,13 +11,13 @@ header{
     justify-content: flex-end;
 	letter-spacing: .03em;
 	font-weight: bold;
-	margin-bottom: 8vw;
+	margin-bottom: 10vw;
 	margin-top: 4vw;
 	/* background-image: url("../../images/Rectangle39.png"); */
 	font-size: 2.5rem;
 	margin: auto;
 	margin-top: 2vw;
-	margin-bottom: 4vw;
+	margin-bottom: 2vw;
 	letter-spacing: .03em;
 	text-align: center;
     padding-left: 30px;
@@ -32,6 +33,7 @@ header{
 
 #logo, .link-text, .apply, .toggleDiv {
 	z-index: 2;
+	font-weight: bold;
   }
   
   .toggleDiv {
