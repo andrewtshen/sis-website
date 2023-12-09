@@ -2,6 +2,7 @@ import React, { useEffect, useRef, ChangeEvent } from 'react';
 import './Editor.css';
 import { toBeRequired } from '@testing-library/jest-dom/matchers';
 import { Dropdown } from 'react-bootstrap';
+// import display from "../../../api/images/display.jpg"
 
 const Editor: React.FC = () => {
   // Add any state or functions you need here
@@ -41,7 +42,22 @@ const Editor: React.FC = () => {
     newMapping[0] = String(event.target.value);
     setMapping(newMapping);
     console.log("Image src:", imageSrc);
-    console.log("Mapping:", mapping)
+    console.log("Mapping:", mapping);
+    // console.log(fetch(`/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`).then(res => res.json()));
+    // setImageSrc(display);
+    const imageUrl = `/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`;
+    fetch(imageUrl, {
+      method: 'POST',
+      // Include any headers or other options required for your POST request
+    })
+      .then(response => response.blob()) // Convert the response to a blob
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        setImageSrc(url);
+      })
+      .catch(error => {
+        console.error('Error fetching the image:', error);
+      });
   }
 
   const handleGSelection = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -51,7 +67,21 @@ const Editor: React.FC = () => {
     setMapping(newMapping);
     console.log("Image src:", imageSrc);
     console.log("Mapping:", mapping)
-    console.log(fetch(`/recolorize?imageSrc=${imageSrc}`).then(res => res.json()))
+    // console.log(fetch(`/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`).then(res => res.json()));
+    // setImageSrc(display);
+    const imageUrl = `/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`;
+    fetch(imageUrl, {
+      method: 'POST',
+      // Include any headers or other options required for your POST request
+    })
+      .then(response => response.blob()) // Convert the response to a blob
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        setImageSrc(url);
+      })
+      .catch(error => {
+        console.error('Error fetching the image:', error);
+      });
   }
 
   const handleBSelection = (event: ChangeEvent<HTMLSelectElement>) => {
@@ -60,7 +90,22 @@ const Editor: React.FC = () => {
     newMapping[2] = String(event.target.value);
     setMapping(newMapping);
     console.log("Image src:", imageSrc);
-    console.log("Mapping:", mapping)
+    console.log("Mapping:", mapping);
+    // console.log(fetch(`/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`).then(res => res.json()));
+    // setImageSrc(display);
+    const imageUrl = `/recolorize?imageSrc=${imageSrc}&mapping=${mapping}`;
+    fetch(imageUrl, {
+      method: 'POST',
+      // Include any headers or other options required for your POST request
+    })
+      .then(response => response.blob()) // Convert the response to a blob
+      .then(blob => {
+        const url = URL.createObjectURL(blob);
+        setImageSrc(url);
+      })
+      .catch(error => {
+        console.error('Error fetching the image:', error);
+      });
   }
 
   const rotateLeft = () => {
@@ -85,6 +130,7 @@ const Editor: React.FC = () => {
     const file = event.target.files?.[0];
     if (file) {
       setImageSrc(URL.createObjectURL(file));
+      // setImageSrc(display);
       console.log("Location of new file:", URL.createObjectURL(file))
       setIsDisabled(false);
     }
@@ -217,6 +263,8 @@ const Editor: React.FC = () => {
             {imageSrc && <img
               ref={imageRef}
               src={imageSrc}
+              // src="./display.jpg"
+              // src={display}
               alt="Uploaded"
               style={{ filter: `brightness(${brightness}%) saturate(${saturation}%) grayscale(${grayscale}%) invert(${inversion}%)`, transform: `rotate(${rotate}deg) scaleX(${flipVertical}) scaleY(${flipHorizontal})` }}
             />}
