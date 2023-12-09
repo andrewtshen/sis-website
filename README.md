@@ -2,14 +2,21 @@
 
 ## Installation
 
-- In `/app`, create virtual environment with `virtualenv venv`, then install `flask` and `python-dotenv`.
+- In `/api`, create virtual environment with `virtualenv venv`, then install `flask` and `python-dotenv`.
+
+```
+cd /api
+virtualenv venv
+pip install flask python-dotenv
+```
+
 - In `/` directory, make sure that `yarn` and `React`/`node`/`npm` are installed properly.
 
 ## To install dependencies use:
 
 - `yarn install`
 
-## To run use:
+## To start the developmental server, open two terminal windows and run the following commands:
 
 - `yarn start`
 - `yarn start-api --port 8000`
