@@ -20,24 +20,24 @@ def get_current_time():
 
 @app.route('/recolorize', methods=['POST'])
 def get_recolorize():
+    # note: images are stored in bgr
     conversion = {
-        'R': 0,
+        'R': 2,
         'G': 1,
-        'B': 2,
+        'B': 0,
         'IR': 3,
         'UV': 4,
     }
 
-    # TODO: Fix this bit so that it uses the image source passed in.
-    imageSrc = request.args.get('imageSrc')
+    fileName = request.args.get('fileName')
     mapping = request.args.get('mapping').split(",")
     mapping = [conversion[m] for m in mapping]
 
-    sample_im = np.load("./images/2021-11-15_22-52-03_combined.npy")
+    sample_im = np.load(f"./gallery/{fileName}")
 
     # Select correct channels
     recolorized_im = sample_im[:, :, mapping]
-    plt.imsave('./images/display.jpg', recolorized_im)
+    plt.imsave('./gallery/display.jpg', recolorized_im)
 
     # Create or process your image here
     # For demonstration, let's create a simple image using Pillow
@@ -49,6 +49,30 @@ def get_recolorize():
     return send_file(img_io, mimetype='image/jpeg')
 
 
-@app.route('/getallimages', methods=['GET'])
+@app.route('/get_all_gallery_filenames', methods=['GET'])
 def get_all_image_names():
-    return os.listdir("./images/")
+    ret = os.listdir("./gallery/")
+    ret.remove(".DS_Store")
+    # TODO: cleanup
+    # This is so jank
+    ret.remove("display.jpg")
+    return ret
+
+
+@app.route('/get_gallery_image', methods=['GET'])
+def get_image():
+    fileName = request.args.get('fileName')
+
+    print("Getting:", f"./gallery/{fileName}")
+    sample_im = np.load(f"./gallery/{fileName}")
+
+    # Select correct channels, note images are stored as BGR
+    rgb_im = sample_im[:, :, [2, 1, 0]]
+
+    # Create or process your image here
+    # For demonstration, let's create a simple image using Pillow
+    img_io = io.BytesIO()
+    Image.fromarray(rgb_im).save(img_io, 'JPEG')
+    img_io.seek(0)
+
+    return send_file(img_io, mimetype='image/jpeg')
