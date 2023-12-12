@@ -54,7 +54,8 @@ def get_all_image_names():
         ret.remove(".DS_Store")
     # TODO: cleanup
     # This is so jank
-    ret.remove("display.jpg")
+    if "display.jpg" in ret:
+        ret.remove("display.jpg")
     response = make_response(ret)
     response.headers['Cache-Control'] = 'public, max-age=86400'
     return response
