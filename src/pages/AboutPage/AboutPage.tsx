@@ -55,7 +55,7 @@ const AboutPage:React.FC = () => {
                         </section>
                     </div>
                 </Fade>
-                <Fade>
+                {/* <Fade>
                     <div className='topic'>
                         <h2>Capture</h2>
                         <h2>Validate</h2>
@@ -67,7 +67,7 @@ const AboutPage:React.FC = () => {
                         <h1 className="section-title">Related Literature</h1>
 
                     </section>
-                </Fade>
+                </Fade> */}
             </div>
         </div>
     );
