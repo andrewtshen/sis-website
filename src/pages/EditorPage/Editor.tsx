@@ -303,7 +303,7 @@ const Editor: React.FC = () => {
             <div className="row">
               <input type="file" ref={fileInputRef} onChange={handleFileChange} className="file-input" accept="image/*" hidden />
               {/* <button className="choose-img" onClick={() => fileInputRef.current?.click()}>Select Image</button> */}
-              {/* <button className="save-img" onClick={saveImage}>Save Image</button> */}
+              <button className="save-img" onClick={saveImage}>Save Image</button>
             </div>
           </div>
         </div>
