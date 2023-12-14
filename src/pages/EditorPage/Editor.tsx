@@ -3,8 +3,6 @@ import './Editor.css';
 import { useLocation } from 'react-router-dom';
 import Carousel from '../../components/Carousel/Carousel';
 
-// import display from "../../../api/images/display.jpg"
-
 const Editor: React.FC = () => {
   // Add any state or functions you need here
   // For example, to handle the range input value:
@@ -42,9 +40,9 @@ const Editor: React.FC = () => {
       });
   }
 
-  const updateImg = (fileUrl:string, fileName:string) => {
+  const updateImg = (fileUrl: string, fileName: string) => {
     if (fileUrl !== undefined) {
-      setImageSrc(fileUrl)    
+      setImageSrc(fileUrl)
       setFileName(fileName)
     }
   }
@@ -194,6 +192,10 @@ const Editor: React.FC = () => {
       <div className='main-container column'>
         <div className="container">
           <h2>Spectral Imaging System Editor</h2>
+          <div className='carousel-container clearfix'>
+            <Carousel updateImg={updateImg} />
+          </div>
+          <p>To choose an image either click on a photo from the Gallery Tab or select a photo from the image carousel.</p>
           <div className="wrapper">
             <div className="editor-panel">
               {/* Recolorize Section */}
@@ -301,9 +303,6 @@ const Editor: React.FC = () => {
               <button className="save-img" onClick={saveImage}>Save Image</button>
             </div>
           </div>
-        </div>
-        <div className='carousel-container clearfix'>
-          <Carousel updateImg={updateImg}/>
         </div>
       </div>
       {/* <Carousel/> */}
