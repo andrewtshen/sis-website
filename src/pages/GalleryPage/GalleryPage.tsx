@@ -19,11 +19,11 @@ const GalleryPage: React.FC = () => {
     const [galleryImageInfos, setGalleryImageInfos] = useState<ImageInfo[]>([]);
 
     useEffect(() => {
-        fetch("/get_all_gallery_filenames")
+        fetch("/api/get_all_gallery_filenames")
             .then(res => res.json())
             .then(fileNames => {
                 const fetchPromises = fileNames.map((fileName: any) => {
-                    const fetchImageUrl = `/get_gallery_image?fileName=${fileName}`;
+                    const fetchImageUrl = `/api/get_gallery_image?fileName=${fileName}`;
                     return fetch(fetchImageUrl)
                         .then(response => response.blob())
                         .then(blob => URL.createObjectURL(blob))

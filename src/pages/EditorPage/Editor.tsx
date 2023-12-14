@@ -29,8 +29,7 @@ const Editor: React.FC = () => {
     setFileName(location.state.fileName);
   }
   if (location.state && fileName && imageSrc == null) {
-    console.log("HERE!")
-    fetch(`/get_gallery_image?fileName=${fileName}`, {
+    fetch(`/api/get_gallery_image?fileName=${fileName}`, {
       // Include any headers or other options required for your POST request
     })
       .then(response => response.blob()) // Convert the response to a blob
@@ -72,7 +71,7 @@ const Editor: React.FC = () => {
     newMapping[0] = String(channel);
     setMapping(newMapping);
     console.log("Mapping:", mapping);
-    const imageUrl = `/recolorize?fileName=${fileName}&mapping=${mapping}`;
+    const imageUrl = `/api/recolorize?fileName=${fileName}&mapping=${mapping}`;
     fetch(imageUrl, {
       method: 'POST',
       // Include any headers or other options required for your POST request
@@ -89,12 +88,11 @@ const Editor: React.FC = () => {
 
   const handleGSelection = (event?: ChangeEvent<HTMLSelectElement>) => {
     const channel = event ? String(event.target.value) : 'G';
-    console.log(channel);
     let newMapping = mapping;
     newMapping[1] = String(channel);
     setMapping(newMapping);
     console.log("Mapping:", mapping)
-    const imageUrl = `/recolorize?fileName=${fileName}&mapping=${mapping}`;
+    const imageUrl = `/api/recolorize?fileName=${fileName}&mapping=${mapping}`;
     fetch(imageUrl, {
       method: 'POST',
       // Include any headers or other options required for your POST request
@@ -111,12 +109,11 @@ const Editor: React.FC = () => {
 
   const handleBSelection = (event?: ChangeEvent<HTMLSelectElement>) => {
     const channel = event ? String(event.target.value) : 'B';
-    console.log(channel);
     let newMapping = mapping;
     newMapping[2] = String(channel);
     setMapping(newMapping);
     console.log("Mapping:", mapping);
-    const imageUrl = `/recolorize?fileName=${fileName}&mapping=${mapping}`;
+    const imageUrl = `/api/recolorize?fileName=${fileName}&mapping=${mapping}`;
     fetch(imageUrl, {
       method: 'POST',
       // Include any headers or other options required for your POST request
@@ -153,8 +150,6 @@ const Editor: React.FC = () => {
     const file = event.target.files?.[0];
     if (file) {
       setImageSrc(URL.createObjectURL(file));
-      // setImageSrc(display);
-      console.log("Location of new file:", URL.createObjectURL(file))
       setIsDisabled(false);
     }
   };
