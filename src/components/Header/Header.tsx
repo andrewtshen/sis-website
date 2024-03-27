@@ -24,6 +24,7 @@ const Header: React.FC<HeaderProps> = ({ title }) => {
                     <Link className="link-text" to="/">Home</Link>
                     <Link className="link-text" to="/gallery">Gallery</Link>
                     <Link className="link-text" to="/editor">Editor</Link>
+                    <Link className="link-text" to="/datasets">Datasets</Link>
                 </div>
             </Toolbar>
         </header>

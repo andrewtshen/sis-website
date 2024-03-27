@@ -16,7 +16,7 @@ if __name__ == "__main__":
 def get_current_time():
     return {'time': time.time()}
 
-@app.route('/recolorize', methods=['POST'])
+@app.route('/api/recolorize', methods=['POST'])
 def get_recolorize():
     # note: images are stored in bgr
     conversion = {
@@ -47,7 +47,7 @@ def get_recolorize():
     return send_file(img_io, mimetype='image/jpeg')
 
 
-@app.route('/get_all_gallery_filenames', methods=['GET'])
+@app.route('/api/get_all_gallery_filenames', methods=['GET'])
 def get_all_image_names():
     ret = os.listdir("./gallery/")
     if os.path.exists('./gallery/.DS_Store'):
@@ -61,7 +61,7 @@ def get_all_image_names():
     return response
 
 
-@app.route('/get_gallery_image', methods=['GET'])
+@app.route('/api/get_gallery_image', methods=['GET'])
 def get_image():
     fileName = request.args.get('fileName')
 

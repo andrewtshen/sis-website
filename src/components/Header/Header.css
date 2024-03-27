@@ -1,14 +1,14 @@
-header{
-    width: 100vw;
-    height: 80px;
-    background: rgba(221, 205, 211, 0);
-    position: absolute; 
+header {
+	width: 100vw;
+	height: 80px;
+	background: rgba(221, 205, 211, 0);
+	position: absolute;
 	z-index: 1;
 }
 
 .prompt {
 	display: flex;
-    justify-content: flex-end;
+	justify-content: flex-end;
 	letter-spacing: .03em;
 	font-weight: bold;
 	margin-bottom: 10vw;
@@ -20,7 +20,7 @@ header{
 	margin-bottom: 2vw;
 	letter-spacing: .03em;
 	text-align: center;
-    padding-left: 30px;
+	padding-left: 30px;
 	padding-right: 600px;
 	/* width: 50%; */
 }
@@ -31,51 +31,55 @@ header{
 	}
 }
 
-#logo, .link-text, .apply, .toggleDiv {
+#logo,
+.link-text,
+.apply,
+.toggleDiv {
 	z-index: 2;
 	font-weight: bold;
-  }
-  
-  .toggleDiv {
+}
+
+.toggleDiv {
 	display: none;
-  }
-  
-  #logo {
+}
+
+#logo {
 	block-size: fit-content;
-	width: 300px;
+	width: 500px;
 	height: auto;
 	padding-left: 50px;
-  }
-  
-  #logo-square {
+}
+
+#logo-square {
 	width: 70px;
 	margin-left: -25%;
-  }
-  
-  /* Style for logo items */
-  
-  /* Styles for nav-items */
-  #nav-items{
+}
+
+/* Style for logo items */
+
+/* Styles for nav-items */
+#nav-items {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
-	width: 300px;
-	justify-content: space-between;
+	width: 500px;
+	justify-content: space-around;
 	font-size: 20px;
-  }
-  
-  /* Style the topnav links */
-  .button {
+}
+
+/* Style the topnav links */
+.button {
 	padding: 1vh 2vw;
-  }
-  
-  .link-text, .link-text:hover {
+}
+
+.link-text,
+.link-text:hover {
 	color: rgba(0, 0, 0, 0.84);
 	text-decoration: none;
-  }
-  
-  /* nav-items hover effects */
- .link-text:after {
+}
+
+/* nav-items hover effects */
+.link-text:after {
 	content: '';
 	width: 0;
 	height: 2px;
@@ -83,39 +87,39 @@ header{
 	background: rgba(0, 0, 0, 0.84);
 	transition: width .3s ease;
 	opacity: 0.75;
-  }
-  
-  .link-text:hover:after {
+}
+
+.link-text:hover:after {
 	width: 100%;
 	left: 0;
 	background: rgba(0, 0, 0, 0.84);
 	opacity: 0.75;
-  }
-  
-  /* Button styles */
-  .button {
+}
+
+/* Button styles */
+.button {
 	color: white;
 	background-color: var(--forestgreen);
 	transition: 0.2s;
 	border-radius: 20px;
 	padding-left: 40px;
 	padding-right: 40px;
-  }
-  
-  /* Button hover effects */
-  .button:hover {
+}
+
+/* Button hover effects */
+.button:hover {
 	color: white;
 	text-decoration: none;
 	background-color: #408D60;
-  }
-  
-  @media screen and (max-width: 900px) {
+}
+
+@media screen and (max-width: 900px) {
 	.toggleDiv {
-	  display: block;
-	  margin-right: 20px;
+		display: block;
+		margin-right: 20px;
 	}
-  
+
 	.topnav #nav-items {
-	  display: none;
+		display: none;
 	}
-  }
+}

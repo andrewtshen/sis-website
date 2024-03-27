@@ -56,13 +56,6 @@ const AboutPage:React.FC = () => {
                     </div>
                 </Fade>
                 <Fade>
-                    <div className='topic'>
-                        <h2>Capture</h2>
-                        <h2>Validate</h2>
-                        <h2>Reimagine</h2>
-                    </div>
-                </Fade>
-                <Fade>
                     <section>
                         <h1 className="section-title">Related Literature</h1>
 
